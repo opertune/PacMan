@@ -1,0 +1,37 @@
+body{
+    background-color: #272727;
+}
+
+#grid{
+    display: grid;
+    width: max-content;
+    margin: 0 auto;
+    border: solid black 3px;
+}
+
+#settings{
+    padding: 5px;
+    width: max-content;
+    border: solid black 3px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+#lblScore{
+    margin-left: 10px;
+    color: white;
+    font-size: x-large;
+}
+
+#btnJouer{
+    height: 30px;
+    width: 100px;
+    font-size: large;
+    background-color:yellowgreen;
+    border: none;
+    vertical-align:top;
+}
+
+#btnJouer:hover{
+    background-color: crimson;
+}
