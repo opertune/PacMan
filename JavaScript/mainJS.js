@@ -75,4 +75,14 @@ function jouer(){
     pacGif.style.gridColumnStart = pacMan.x+1;
     pacGif.style.gridRowStart = pacMan.y+1;
     document.getElementById("grid").appendChild(pacGif);
+
+    // Créer et affiche les 4 fantomes
+    for(i = 0; i < 4; i++){
+        let fantomeGif = document.createElement("img");
+        fantomeGif.id = "fantome"+i;
+        fantomeGif.src = "../PacMan/img/fantome" + i + ".gif"
+        fantomeGif.style.gridColumnStart = 10;
+        fantomeGif.style.gridRowStart = 11;
+        document.getElementById("grid").appendChild(fantomeGif);
+    }
 }
