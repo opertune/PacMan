@@ -12,8 +12,8 @@ let pacMan = {
 
 // 0 = mur, 1 = bonbon, 2 = sol
 let grid = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -33,7 +33,7 @@ let grid = [
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 // Global varial score
@@ -51,9 +51,9 @@ function displayGrid(){
             wall.id = "row" + i + "col" + j;
 
             if(grid[i][j] == 0){
-                wall.src = "../PacMan/img/mur.gif";
+                wall.src = "../PacMan/img/wall.png";
             }else if(grid[i][j] == 1){
-                wall.src = "../PacMan/img/bonbon.gif";
+                wall.src = "../PacMan/img/coin.png";
             }else{
                 wall.src = "../PacMan/img/sol.gif";
             }
@@ -75,7 +75,7 @@ function displayGrid(){
 function displayPacMan(){
     let pacGif = document.createElement("img");
     pacGif.id = "pacGif";
-    pacGif.src = "../PacMan/img/pacman4.gif";
+    pacGif.src = "../PacMan/img/pacman.gif";
 
     pacGif.style.gridColumnStart = pacMan.x;
     pacGif.style.gridRowStart = pacMan.y;
@@ -87,7 +87,7 @@ function displayGhost(){
     for(i = 0; i < 4; i++){
         let fantomeGif = document.createElement("img");
         fantomeGif.id = "fantome"+i;
-        fantomeGif.src = "../PacMan/img/fantome" + i + ".gif"
+        fantomeGif.src = "../PacMan/img/ghost" + i + ".gif"
         fantomeGif.style.gridColumnStart = 10;
         fantomeGif.style.gridRowStart = 11;
 
@@ -123,6 +123,7 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(-0.25turn)";
+            outOfGrid()
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
             pacmanEat()
@@ -136,6 +137,7 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(0turn)";
+            outOfGrid()
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
             pacmanEat()
@@ -149,6 +151,7 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(0.25turn)";
+            outOfGrid()
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
             pacmanEat()
@@ -161,7 +164,8 @@ function movePacMan(){
                 pacMan.x++;
             }
             // Rotate pacman image
-            pacGif.style.transform = "rotate(0.5turn)";
+            pacGif.style.transform = "scaleX(-1)";
+            outOfGrid()
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
             pacmanEat()
@@ -169,11 +173,26 @@ function movePacMan(){
     }
 }
 
+// Check if pacman is out of the grid
+function outOfGrid(){
+    if(pacMan.x <= 0){
+        pacMan.x = 19;
+    }else if(pacMan.x >= grid[0].length+1){
+        pacMan.x = 1;
+    }
+
+    if(pacMan.y == 0){
+        pacMan.y = 22;
+    }
+}
+
 // increase score and change image each time pacman eat bonbon
 function pacmanEat(){
     if(grid[pacMan.y - 1][pacMan.x - 1] == 1){
+        grid[pacMan.y - 1][pacMan.x - 1] = 2;
         document.getElementById("row"+(pacMan.y-1)+"col"+(pacMan.x-1)).src = "../PacMan/img/sol.gif";
         score++;
+        document.getElementById("lblScore").innerHTML = "score : " + score;
     }  
 }
 
