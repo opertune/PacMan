@@ -1,16 +1,6 @@
 window.addEventListener("load", function(){
     displayGrid();
     document.getElementById("btnJouer").addEventListener("click", play);
-    // Set pac man direction with wasd key
-    document.addEventListener("keypress", function(event){
-        const key = event.key;
-        switch (key){
-            case "w": pacMan.direction = 1; break;
-            case "a": pacMan.direction = 4; break;
-            case "s": pacMan.direction = 3; break;
-            case "d": pacMan.direction = 2; break;
-        }
-    });
 });
 
 let pacMan = {
@@ -19,33 +9,33 @@ let pacMan = {
     direction: 2, // 1 = top, 2 = right, 3 = bottom, 4 = left
 };
 
-function displayGrid(){
-    // 0 = mur, 1 = bonbon, 2 = sol
-    let grid = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
-        [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 0],
-        [0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-        [0, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 0],
-        [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-        [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0],
-        [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-        [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-        [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ];
+// 0 = mur, 1 = bonbon, 2 = sol
+let grid = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 0],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+    [0, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 0],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0],
+    [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
 
+function displayGrid(){
     // Main div
     let div = document.createElement("div");
     div.id = "grid";
@@ -87,7 +77,7 @@ function displayPacMan(){
     document.getElementById("grid").appendChild(pacGif);
 }
 
-// display 4 ghost in grind
+// display 4 ghosts in grind
 function displayGhost(){
     for(i = 0; i < 4; i++){
         let fantomeGif = document.createElement("img");
@@ -101,34 +91,62 @@ function displayGhost(){
 }
 
 function gameRound(){
-    setInterval(movePacMan, 1000);
-    setInterval(moveGhost, 500);
+    setInterval(movePacMan, 500);
 }
 
-function getPacManDirection(){
-
-}
-
+// Change pacman orientation on keypress
 function movePacMan(){
+    // Set pac man direction with wasd key
+    document.addEventListener("keydown", function(event){
+        switch (event.key){
+            case "w": pacMan.direction = 1; break;
+            case "a": pacMan.direction = 4; break;
+            case "s": pacMan.direction = 3; break;
+            case "d": pacMan.direction = 2; break;
+        }
+    });
+
     // 1 = top, 2 = right, 3 = bottom, 4 = left
-    if(pacMan.direction == 1){
-        pacGif.style.gridRowStart = pacMan.y--;
-        pacGif.style.transform = "rotate(-0.25turn)";
-    }else if(pacMan.direction == 2){
-        pacGif.style.gridColumnStart = pacMan.x++;
-        pacGif.style.transform = "rotate(0turn)";
-    }else if(pacMan.direction == 3){
-        pacGif.style.gridRowStart = pacMan.y++;
-        pacGif.style.transform = "rotate(0.25turn)";
-    }else if(pacMan.direction == 4){
-        pacGif.style.gridColumnStart = pacMan.x--;
-        pacGif.style.transform = "rotate(0.5turn)";
+    switch(pacMan.direction){
+        case 1: 
+        pacMan.y--;           
+            if(grid[pacMan.y-1][pacMan.x-1] == 0){
+                pacMan.y++;
+            }
+            pacGif.style.transform = "rotate(-0.25turn)";
+            pacGif.style.gridRowStart = pacMan.y;
+            
+            break;
+        case 2:
+            pacMan.x++;
+            if(grid[pacMan.y-1][pacMan.x-1] == 0){
+                pacMan.x--;
+            }
+            pacGif.style.transform = "rotate(0turn)";
+            pacGif.style.gridColumnStart = pacMan.x;
+            
+            break;
+        case 3:
+            pacMan.y++;
+            if(grid[pacMan.y-1][pacMan.x-1] == 0){
+                pacMan.y--;
+            }
+            pacGif.style.transform = "rotate(0.25turn)";
+            pacGif.style.gridRowStart = pacMan.y;
+            
+            break;
+        case 4:
+            pacMan.x--;
+            if(grid[pacMan.y-1][pacMan.x-1] == 0){
+                pacMan.x++;
+            }
+            pacGif.style.transform = "rotate(0.5turn)";
+            pacGif.style.gridColumnStart = pacMan.x;
+            
+            break;
     }
 }
 
-function moveGhost(){
-
-}
 
 function play(){
     displayPacMan();
