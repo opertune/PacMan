@@ -1,12 +1,22 @@
 window.addEventListener("load", function(){
     displayGrid();
-    document.getElementById("btnJouer").addEventListener("click", jouer);
+    document.getElementById("btnJouer").addEventListener("click", play);
+    // Set pac man direction with wasd key
+    document.addEventListener("keypress", function(event){
+        const key = event.key;
+        switch (key){
+            case "w": pacMan.direction = 1; break;
+            case "a": pacMan.direction = 4; break;
+            case "s": pacMan.direction = 3; break;
+            case "d": pacMan.direction = 2; break;
+        }
+    });
 });
 
 let pacMan = {
-    x: 1,
-    y: 1,
-    direction: 0,
+    x: 2,
+    y: 2,
+    direction: 2, // 1 = top, 2 = right, 3 = bottom, 4 = left
 };
 
 function displayGrid(){
@@ -54,7 +64,7 @@ function displayGrid(){
                 wall.src = "../PacMan/img/sol.gif";
             }
 
-            // Place l'image en x / y de la grid
+            // Display img at x/y in grid
             wall.style.gridColumnStart = j+1;
             wall.style.gridRowStart = i+1;
 
@@ -66,23 +76,62 @@ function displayGrid(){
     a.before(div);
 }
 
-function jouer(){
-    // Créer et affiche Pac-Man
+// Display pac man in grid
+function displayPacMan(){
     let pacGif = document.createElement("img");
     pacGif.id = "pacGif";
     pacGif.src = "../PacMan/img/pacman4.gif";
 
-    pacGif.style.gridColumnStart = pacMan.x+1;
-    pacGif.style.gridRowStart = pacMan.y+1;
+    pacGif.style.gridColumnStart = pacMan.x;
+    pacGif.style.gridRowStart = pacMan.y;
     document.getElementById("grid").appendChild(pacGif);
+}
 
-    // Créer et affiche les 4 fantomes
+// display 4 ghost in grind
+function displayGhost(){
     for(i = 0; i < 4; i++){
         let fantomeGif = document.createElement("img");
         fantomeGif.id = "fantome"+i;
         fantomeGif.src = "../PacMan/img/fantome" + i + ".gif"
         fantomeGif.style.gridColumnStart = 10;
         fantomeGif.style.gridRowStart = 11;
+
         document.getElementById("grid").appendChild(fantomeGif);
     }
+}
+
+function gameRound(){
+    setInterval(movePacMan, 1000);
+    setInterval(moveGhost, 500);
+}
+
+function getPacManDirection(){
+
+}
+
+function movePacMan(){
+    // 1 = top, 2 = right, 3 = bottom, 4 = left
+    if(pacMan.direction == 1){
+        pacGif.style.gridRowStart = pacMan.y--;
+        pacGif.style.transform = "rotate(-0.25turn)";
+    }else if(pacMan.direction == 2){
+        pacGif.style.gridColumnStart = pacMan.x++;
+        pacGif.style.transform = "rotate(0turn)";
+    }else if(pacMan.direction == 3){
+        pacGif.style.gridRowStart = pacMan.y++;
+        pacGif.style.transform = "rotate(0.25turn)";
+    }else if(pacMan.direction == 4){
+        pacGif.style.gridColumnStart = pacMan.x--;
+        pacGif.style.transform = "rotate(0.5turn)";
+    }
+}
+
+function moveGhost(){
+
+}
+
+function play(){
+    displayPacMan();
+    displayGhost();
+    gameRound();
 }
