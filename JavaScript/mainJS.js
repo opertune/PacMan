@@ -1,7 +1,6 @@
 window.addEventListener("load", function () {
     displayGrid();
     document.getElementById("btnJouer").addEventListener("click", play);
-    document.getelemen
 });
 
 // Pacman object
@@ -13,15 +12,15 @@ this.pacMan = {
 
 // Ghost object
 this.ghost1 = {
-    x: 10,
-    y: 21,
-    direction: 1,
+    x: 7,
+    y: 9,
+    direction: 2,
 }
 
 this.ghost2 = {
-    x: 19,
-    y: 11,
-    direction: 2,
+    x: 13,
+    y: 9,
+    direction: 4,
 }
 
 this.ghost3 = {
@@ -33,13 +32,13 @@ this.ghost3 = {
 this.ghost4 = {
     x: 13,
     y: 13,
-    direction: 4,
+    direction: 1,
 }
 
 // 0 = mur, 1 = bonbon, 2 = sol
 let grid = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -59,7 +58,7 @@ let grid = [
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 // Global variable
@@ -214,11 +213,11 @@ function movePacMan() {
 function moveGhost() {
     for (i = 1; i < 5; i++) {
         // ramdom number between 1 and 4
-        let direction = Math.floor(Math.random() * 4) + 1;
+        window["ghost"+i].direction = Math.floor(Math.random() * 4) + 1;
         // get ghost id
         let ghostId = document.getElementById("ghost" + i);
         // 1 = top, 2 = right, 3 = bottom, 4 = left
-        switch (direction) {
+        switch (window["ghost"+i].direction) {
             case 1:
                 // decrease row (top movement)
                 window['ghost' + i].y--;
