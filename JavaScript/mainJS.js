@@ -330,7 +330,7 @@ function gameRound() {
  
 // Main function 
 function play() {
-    // if a game isn't in progress and if his a first game
+    // if a game isn't in progress and if this is the first game
     if (inGame == false && document.getElementById("btnJouer").value == "Play") {
         inGame = true;
         displayPacMan();
