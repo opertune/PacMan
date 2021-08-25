@@ -63,7 +63,7 @@ let grid = [
 
 // Global variable
 let score = 0;
-let loose = false;
+let lose = false;
 let pacInterval, ghostInterval;
 let inGame = false;
 
@@ -308,14 +308,15 @@ function pacmanEat() {
 // Collision between PacMan and ghost
 function collision() {
     for (i = 1; i < 5; i++) {
-        // if Pacman has same pos with one ghost : Loose
+        // if Pacman has same pos with one ghost : lose
         if (pacMan.x == window['ghost' + i].x && pacMan.y == window['ghost' + i].y) {
-            loose = true;
+            document.getElementById("btnJouer").value = "Replay";
+            lose = true;
             // stop interval loop
             clearInterval(pacInterval);
             clearInterval(ghostInterval);
             // set label text
-            document.getElementById("result").innerHTML = "LOOSE !";
+            document.getElementById("result").innerHTML = "LOSE !";
             inGame = false;
         }
     }
@@ -323,17 +324,21 @@ function collision() {
 
 // Set round duration
 function gameRound() {
-    pacInterval = setInterval(movePacMan, 300);
-    ghostInterval = setInterval(moveGhost, 300);
+    pacInterval = setInterval(movePacMan, 200);
+    ghostInterval = setInterval(moveGhost, 200);
 }
-
+ 
 // Main function 
 function play() {
-    // if a game isn't in progress
-    if (inGame == false) {
+    // if a game isn't in progress and if his a first game
+    if (inGame == false && document.getElementById("btnJouer").value == "Play") {
         inGame = true;
         displayPacMan();
         displayGhost();
         gameRound();
+    }
+    // New game
+    if(document.getElementById("btnJouer").value == "Replay"){
+        document.location.reload();
     }
 }
