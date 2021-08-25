@@ -37,7 +37,12 @@ body{
 }
 
 #result{
-    font-size: xx-large;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position:absolute;
+    top: 22%;
+    left: 12%;
+    font-size:100px;
     color: red;
     margin: 0 auto;
 }

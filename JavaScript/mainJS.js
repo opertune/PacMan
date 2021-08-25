@@ -1,6 +1,7 @@
 window.addEventListener("load", function () {
     displayGrid();
     document.getElementById("btnJouer").addEventListener("click", play);
+    document.getelemen
 });
 
 // Pacman object
@@ -12,14 +13,14 @@ this.pacMan = {
 
 // Ghost object
 this.ghost1 = {
-    x: 7,
-    y: 9,
+    x: 10,
+    y: 21,
     direction: 1,
 }
 
 this.ghost2 = {
-    x: 13,
-    y: 9,
+    x: 19,
+    y: 11,
     direction: 2,
 }
 
@@ -37,8 +38,8 @@ this.ghost4 = {
 
 // 0 = mur, 1 = bonbon, 2 = sol
 let grid = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -58,14 +59,13 @@ let grid = [
     [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 // Global variable
 let score = 0;
 let lose = false;
 let pacInterval, ghostInterval;
-let inGame = false;
 
 function displayGrid() {
     // Main div
@@ -207,8 +207,7 @@ function movePacMan() {
         clearInterval(pacInterval);
         clearInterval(ghostInterval);
         document.getElementById("result").style.color = "#0FFF00";
-        document.getElementById("result").innerHTML = "Win !";
-        inGame = false;
+        document.getElementById("result").innerHTML = "Win";
     }
 }
 
@@ -280,7 +279,7 @@ function moveGhost() {
     }
 }
 
-// Check if pacman is out of the grid
+// Check if pacman is out of the grid X abs
 function outOfGrid(entite) {
     if (entite.x <= 0) {
         entite.x = 19;
@@ -310,14 +309,12 @@ function collision() {
     for (i = 1; i < 5; i++) {
         // if Pacman has same pos with one ghost : lose
         if (pacMan.x == window['ghost' + i].x && pacMan.y == window['ghost' + i].y) {
-            document.getElementById("btnJouer").value = "Replay";
             lose = true;
             // stop interval loop
             clearInterval(pacInterval);
             clearInterval(ghostInterval);
             // set label text
-            document.getElementById("result").innerHTML = "LOSE !";
-            inGame = false;
+            document.getElementById("result").innerHTML = "LOSE";
         }
     }
 }
@@ -331,14 +328,12 @@ function gameRound() {
 // Main function 
 function play() {
     // if a game isn't in progress and if this is the first game
-    if (inGame == false && document.getElementById("btnJouer").value == "Play") {
-        inGame = true;
+    if (document.getElementById("btnJouer").value == "Play") {
+        document.getElementById("btnJouer").value = "Reset";
         displayPacMan();
         displayGhost();
         gameRound();
-    }
-    // New game
-    if(document.getElementById("btnJouer").value == "Replay"){
+    }else if(document.getElementById("btnJouer").value == "Reset"){
         document.location.reload();
     }
 }
