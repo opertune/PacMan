@@ -10,6 +10,31 @@ let pacMan = {
     direction: 2, // 1 = top, 2 = right, 3 = bottom, 4 = left
 };
 
+// Ghost object
+this.ghost1 = {
+    x: 7,
+    y: 9,
+    direction: 1,
+}
+
+this.ghost2 = {
+    x: 13,
+    y: 9,
+    direction: 2,
+}
+
+this.ghost3 = {
+    x: 7,
+    y: 13,
+    direction: 3,
+}
+
+this.ghost4 = {
+    x: 13,
+    y: 13,
+    direction: 4,
+}
+
 // 0 = mur, 1 = bonbon, 2 = sol
 let grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -84,20 +109,21 @@ function displayPacMan(){
 
 // display 4 ghosts in grid
 function displayGhost(){
-    for(i = 0; i < 4; i++){
-        let fantomeGif = document.createElement("img");
-        fantomeGif.id = "fantome"+i;
-        fantomeGif.src = "../PacMan/img/ghost" + i + ".gif"
-        fantomeGif.style.gridColumnStart = 10;
-        fantomeGif.style.gridRowStart = 11;
+    for(i = 1; i < 5; i++){
+        let ghostGif = document.createElement("img");
+        ghostGif.id = "ghost"+i;
+        ghostGif.src = "../PacMan/img/ghost" + i + ".gif"
+        ghostGif.style.gridColumnStart = window['ghost'+i].x;
+        ghostGif.style.gridRowStart = window['ghost'+i].y;
 
-        document.getElementById("grid").appendChild(fantomeGif);
+        document.getElementById("grid").appendChild(ghostGif);
     }
 }
 
 // Set round duration
 function gameRound(){
     setInterval(movePacMan, 300);
+    setInterval(moveGhost, 300);
 }
 
 // PacMan movement and check if he is in wall
@@ -124,9 +150,10 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "rotate(-0.25turn)";
             outOfGrid()
+            pacmanEat()
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
-            pacmanEat()
+            
             break;
         case 2:
             // increase column (right movemement)
@@ -138,9 +165,10 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "rotate(0turn)";
             outOfGrid()
+            pacmanEat()
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
-            pacmanEat()
+            
             break;
         case 3:
             // row increase (bottom movemement)
@@ -150,11 +178,12 @@ function movePacMan(){
                 pacMan.y--;
             }
             // Rotate pacman image
-            pacGif.style.transform = "rotate(0.25turn)";
+            pacGif.style.transform = "rotate(0.25turn)";           
             outOfGrid()
+            pacmanEat()
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
-            pacmanEat()
+            
             break;
         case 4:
             // decrease column (left movement)
@@ -166,10 +195,75 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "scaleX(-1)";
             outOfGrid()
+            pacmanEat()
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
-            pacmanEat()
+            
             break;
+    }
+}
+
+function moveGhost() {
+    for(i = 1; i < 5; i++){
+        // ramdom number between 1 and 4
+        let direction = Math.floor(Math.random() * 4) + 1;
+        // get ghost id
+        let ghostId = document.getElementById("ghost"+i);
+        // 1 = top, 2 = right, 3 = bottom, 4 = left
+        switch (direction) {
+            case 1:
+                // decrease row (top movement)
+                window['ghost'+i].y--;
+                // if ghost is in wall he return at last coord
+                if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
+                    window['ghost'+i].y++;
+                }
+                // Rotate ghost image
+                ghostId.style.transform = "rotate(-0.25turn)";
+                // display ghost image at new coord
+                ghostId.style.gridRowStart = window['ghost'+i].y;
+
+                break;
+            case 2:
+                // increase column (right movemement)
+                window['ghost'+i].x++;
+                // if ghost is in wall he return at last coord
+                if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
+                    window['ghost'+i].x--;
+                }
+                // Rotate ghost image
+                ghostId.style.transform = "rotate(0turn)";
+                // display ghost image at new coord
+                ghostId.style.gridColumnStart = window['ghost'+i].x;
+
+                break;
+            case 3:
+                // row increase (bottom movemement)
+                window['ghost'+i].y++;
+                // if ghost is in wall he return at last coord
+                if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
+                    window['ghost'+i].y--;
+                }
+                // Rotate ghost image
+                ghostId.style.transform = "rotate(0.25turn)";
+                // display ghost image at new coord
+                ghostId.style.gridRowStart = window['ghost'+i].y;
+
+                break;
+            case 4:
+                // decrease column (left movement)
+                window['ghost'+i].x--;
+                // if ghost is in wall he return at last coord
+                if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
+                    window['ghost'+i].x++;
+                }
+                // Rotate ghost image
+                ghostId.style.transform = "scaleX(-1)";
+                // display ghost image at new coord
+                ghostId.style.gridColumnStart = window['ghost'+i].x;
+
+                break;
+        }
     }
 }
 
@@ -181,8 +275,10 @@ function outOfGrid(){
         pacMan.x = 1;
     }
 
-    if(pacMan.y == 0){
+    if(pacMan.y <= 1){
         pacMan.y = 22;
+    }else if(pacMan.y >= grid.length){
+        pacMan.y = 1;
     }
 }
 
@@ -192,7 +288,7 @@ function pacmanEat(){
         grid[pacMan.y - 1][pacMan.x - 1] = 2;
         document.getElementById("row"+(pacMan.y-1)+"col"+(pacMan.x-1)).src = "../PacMan/img/sol.gif";
         score++;
-        document.getElementById("lblScore").innerHTML = "score : " + score;
+        document.getElementById("lblScore").innerHTML = "Score : " + score;
     }  
 }
 
