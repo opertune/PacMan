@@ -61,8 +61,11 @@ let grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-// Global varial score
+// Global variable
 let score = 0;
+let loose = false;
+let pacInterval, ghostInterval;
+let inGame = false;
 
 function displayGrid(){
     // Main div
@@ -120,12 +123,6 @@ function displayGhost(){
     }
 }
 
-// Set round duration
-function gameRound(){
-    setInterval(movePacMan, 300);
-    setInterval(moveGhost, 200);
-}
-
 // PacMan movement and check if he is in wall
 function movePacMan(){
     // Set pacman direction with WASD keybind on keydown
@@ -150,6 +147,7 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "rotate(-0.25turn)";
             outOfGrid(window['pacMan']);
+            collision()
             pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
@@ -165,6 +163,7 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "rotate(0turn)";
             outOfGrid(window['pacMan']);
+            collision()
             pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
@@ -180,6 +179,7 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "rotate(0.25turn)";           
             outOfGrid(window['pacMan']);
+            collision()
             pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
@@ -195,11 +195,19 @@ function movePacMan(){
             // Rotate pacman image
             pacGif.style.transform = "scaleX(-1)";
             outOfGrid(window['pacMan']);
+            collision()
             pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
             
             break;
+    }
+    if(score == 192){
+        clearInterval(pacInterval);
+        clearInterval(ghostInterval);
+        document.getElementById("result").style.color = "#0FFF00";
+        document.getElementById("result").innerHTML = "Win !";
+        inGame = false;
     }
 }
 
@@ -296,9 +304,35 @@ function pacmanEat(){
     }  
 }
 
+// Collision between PacMan and ghost
+function collision(){
+    for(i = 1; i < 5; i++){
+        // if Pacman has same pos with one ghost
+        if(pacMan.x == window['ghost'+i].x && pacMan.y == window['ghost'+i].y){
+            loose = true;
+            // stop interval loop
+            clearInterval(pacInterval);
+            clearInterval(ghostInterval);
+            // set label text
+            document.getElementById("result").innerHTML = "LOOSE !";
+            inGame = false;
+        }
+    }
+}
+
+// Set round duration
+function gameRound(){
+    pacInterval = setInterval(movePacMan, 300);
+    ghostInterval = setInterval(moveGhost, 200);
+}
+
 // Main function 
 function play(){
-    displayPacMan();
-    displayGhost();
-    gameRound();
+    // if a game isn't in progress
+    if (inGame == false){
+        inGame = true;
+        displayPacMan();
+        displayGhost();
+        gameRound();
+    }
 }
