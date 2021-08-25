@@ -4,7 +4,7 @@ window.addEventListener("load", function(){
 });
 
 // Pacman object
-let pacMan = {
+this.pacMan = {
     x: 2,
     y: 2,
     direction: 2, // 1 = top, 2 = right, 3 = bottom, 4 = left
@@ -123,7 +123,7 @@ function displayGhost(){
 // Set round duration
 function gameRound(){
     setInterval(movePacMan, 300);
-    setInterval(moveGhost, 300);
+    setInterval(moveGhost, 200);
 }
 
 // PacMan movement and check if he is in wall
@@ -149,8 +149,8 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(-0.25turn)";
-            outOfGrid()
-            pacmanEat()
+            outOfGrid(window['pacMan']);
+            pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
             
@@ -164,8 +164,8 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(0turn)";
-            outOfGrid()
-            pacmanEat()
+            outOfGrid(window['pacMan']);
+            pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
             
@@ -179,8 +179,8 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "rotate(0.25turn)";           
-            outOfGrid()
-            pacmanEat()
+            outOfGrid(window['pacMan']);
+            pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridRowStart = pacMan.y;
             
@@ -194,8 +194,8 @@ function movePacMan(){
             }
             // Rotate pacman image
             pacGif.style.transform = "scaleX(-1)";
-            outOfGrid()
-            pacmanEat()
+            outOfGrid(window['pacMan']);
+            pacmanEat();
             // display pacman image at new coord
             pacGif.style.gridColumnStart = pacMan.x;
             
@@ -218,6 +218,7 @@ function moveGhost() {
                 if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
                     window['ghost'+i].y++;
                 }
+                outOfGrid(window['ghost'+i]);
                 // Rotate ghost image
                 ghostId.style.transform = "rotate(-0.25turn)";
                 // display ghost image at new coord
@@ -231,6 +232,7 @@ function moveGhost() {
                 if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
                     window['ghost'+i].x--;
                 }
+                outOfGrid(window['ghost'+i]);
                 // Rotate ghost image
                 ghostId.style.transform = "rotate(0turn)";
                 // display ghost image at new coord
@@ -244,6 +246,7 @@ function moveGhost() {
                 if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
                     window['ghost'+i].y--;
                 }
+                outOfGrid(window['ghost'+i]);
                 // Rotate ghost image
                 ghostId.style.transform = "rotate(0.25turn)";
                 // display ghost image at new coord
@@ -257,6 +260,7 @@ function moveGhost() {
                 if (grid[window['ghost'+i].y - 1][window['ghost'+i].x - 1] == 0) {
                     window['ghost'+i].x++;
                 }
+                outOfGrid(window['ghost'+i]);
                 // Rotate ghost image
                 ghostId.style.transform = "scaleX(-1)";
                 // display ghost image at new coord
@@ -268,17 +272,17 @@ function moveGhost() {
 }
 
 // Check if pacman is out of the grid
-function outOfGrid(){
-    if(pacMan.x <= 0){
-        pacMan.x = 19;
-    }else if(pacMan.x >= grid[0].length+1){
-        pacMan.x = 1;
+function outOfGrid(entite){
+    if(entite.x <= 0){
+        entite.x = 19;
+    }else if(entite.x >= grid[0].length+1){
+        entite.x = 1;
     }
 
-    if(pacMan.y <= 1){
-        pacMan.y = 22;
-    }else if(pacMan.y >= grid.length){
-        pacMan.y = 1;
+    if(entite.y <= 1){
+        entite.y = 22;
+    }else if(entite.y >= grid.length){
+        entite.y = 1;
     }
 }
 
