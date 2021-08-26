@@ -8,7 +8,7 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Open index.html",
-            "file": "C:\\Users\\User-08\\Documents\\Proj\\JavaScript\\PacMan\\index.html",
+            "file": "C:\\projet\\WEB\\JavaScript\\PacMan\\index.html",
             "runtimeExecutable": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
             "runtimeArgs": [ "--remote-debugging-port=9222" ]
         }
